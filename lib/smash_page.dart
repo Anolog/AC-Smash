@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 import 'AnimalCard.dart';
+import 'AnimalData.dart';
 import 'SpeechBlobs.dart';
 
 class SwipeCardsPage extends StatefulWidget {
@@ -30,9 +31,9 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     _swipeItems.clear();
 
     for (final data in _villagerData) {
-      _swipeItems.add(
-        SwipeItem(
-          content: AnimalCard(
+      _swipeItems.add(SwipeItem(
+        content: AnimalCard(
+          animalData: AnimalData(
             name: data['Name'],
             id: data['Unique Entry ID'],
             animalImage: data['Name'] != 'Ankha'
@@ -48,17 +49,8 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
             favoriteSaying: data['Favorite Saying'],
             hobby: data['Hobby'],
           ),
-          likeAction: () {
-            // Handle like action
-          },
-          nopeAction: () {
-            // Handle nope action
-          },
-          onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
-          },
         ),
-      );
+      ));
     }
     // Initialize the _matchEngine once all items are created
     _matchEngine = MatchEngine(swipeItems: _swipeItems);

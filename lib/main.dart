@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'database/DatabaseHelper.dart';
 import 'smash_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize SharedPreferences
+  await SharedPreferences.getInstance();
+
   runApp(const MyApp());
 }
 

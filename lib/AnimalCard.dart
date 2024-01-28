@@ -1,29 +1,12 @@
 import 'package:ac_smash/SpeechBlobArrow.dart';
 import 'package:flutter/material.dart';
 import 'AnimalNameComponent.dart';
+import 'AnimalData.dart';
 
 class AnimalCard extends StatelessWidget {
-  final String name;
-  final String id;
-  final String animalImage;
-  final String backgroundImage;
-  final Color nameColor;
-  final Color nameContainerColor;
-  final String birthday;
-  final String favoriteSaying;
-  final String hobby;
+  final AnimalData animalData;
 
-  AnimalCard({
-    required this.name,
-    required this.id,
-    required this.animalImage,
-    required this.backgroundImage,
-    required this.nameColor,
-    required this.nameContainerColor,
-    required this.birthday,
-    required this.favoriteSaying,
-    required this.hobby,
-  });
+  AnimalCard({required this.animalData});
 
   IconData getHobbyIcon(String hobby) {
     switch (hobby.toLowerCase()) {
@@ -62,7 +45,7 @@ class AnimalCard extends StatelessWidget {
             left: 100,
             top: 5,
             child: Image.network(
-              animalImage,
+              animalData.animalImage,
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
                 if (loadingProgress == null) {
@@ -98,9 +81,9 @@ class AnimalCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(8),
               child: AnimalNameComponent(
-                text: name,
-                nameColor: nameColor,
-                nameContainerColor: nameContainerColor,
+                text: animalData.name,
+                nameColor: animalData.nameColor,
+                nameContainerColor: animalData.nameContainerColor,
               ),
             ),
           ),
@@ -119,7 +102,7 @@ class AnimalCard extends StatelessWidget {
             top: 48,
             left: 47,
             child: Text(
-              birthday,
+              animalData.birthday,
               style: TextStyle(
                 fontSize: 28,
                 fontFamily: 'Hind',
@@ -132,7 +115,7 @@ class AnimalCard extends StatelessWidget {
               top: 40,
               right: 47,
               child: Icon(
-                getHobbyIcon(hobby),
+                getHobbyIcon(animalData.hobby),
                 size: 50,
                 color: Color.fromARGB(255, 180, 80, 80),
               )),
@@ -148,7 +131,7 @@ class AnimalCard extends StatelessWidget {
                 children: [
                   SizedBox(height: 8),
                   Text(
-                    favoriteSaying,
+                    animalData.favoriteSaying,
                     style: TextStyle(
                       fontSize: 28,
                       fontFamily: 'Hind',
