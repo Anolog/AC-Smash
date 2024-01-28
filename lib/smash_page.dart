@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 import 'AnimalCard.dart';
@@ -13,6 +14,8 @@ class SwipeCardsPage extends StatefulWidget {
 }
 
 class _SwipeCardsPageState extends State<SwipeCardsPage> {
+  SharedPreferences? prefs;
+
   MatchEngine? _matchEngine;
   List<SwipeItem> _swipeItems = [];
   List<Map<String, dynamic>> _villagerData = [];
@@ -65,16 +68,45 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   }
 
   void _swipeLeft() {
-    _matchEngine?.currentItem?.nope(); // Trigger left swipe (No)
+    final SwipeItem? currentItem = _matchEngine?.currentItem;
+
+    if (currentItem != null) {
+      final AnimalCard currentCard = currentItem.content as AnimalCard;
+
+      handleSwipe(currentCard.animalData.id, 'pass');
+      currentItem.nope();
+    }
   }
 
   void _swipeRight() {
-    _matchEngine?.currentItem?.like(); // Trigger right swipe (Yes)
+    final SwipeItem? currentItem = _matchEngine?.currentItem;
+
+    if (currentItem != null) {
+      final AnimalCard currentCard = currentItem.content as AnimalCard;
+
+      handleSwipe(currentCard.animalData.id, 'smash');
+      currentItem.like(); // Trigger right swipe (Yes)
+    }
+  }
+
+  Future<void> initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  void handleSwipe(String animalID, String swipeValue) {
+    final Map<String, dynamic> swipeData = {
+      'id': animalID,
+      'swipeValue': swipeValue,
+    };
+
+    final String swipeDataJson = jsonEncode(swipeData);
+    prefs?.setString('swipeData', swipeDataJson);
   }
 
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     _loadVillagerData();
   }
 
@@ -100,7 +132,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                   itemChanged: (SwipeItem item, int index) {
                     // Handle item changed
                   },
-                  upSwipeAllowed: true,
+                  upSwipeAllowed: false,
                   fillSpace: true,
                 ),
               ),

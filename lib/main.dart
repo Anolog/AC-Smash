@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'database/DatabaseHelper.dart';
 import 'smash_page.dart';
 
+String userId = "anonymous";
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
