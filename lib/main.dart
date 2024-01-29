@@ -9,7 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize SharedPreferences
-  await SharedPreferences.getInstance();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //await prefs.clear();
 
   runApp(const MyApp());
 }

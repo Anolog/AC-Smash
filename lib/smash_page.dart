@@ -7,6 +7,7 @@ import 'package:swipe_cards/swipe_cards.dart';
 import 'AnimalCard.dart';
 import 'AnimalData.dart';
 import 'SpeechBlobs.dart';
+import 'database/DatabaseHelper.dart';
 
 class SwipeCardsPage extends StatefulWidget {
   @override
@@ -19,6 +20,8 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   MatchEngine? _matchEngine;
   List<SwipeItem> _swipeItems = [];
   List<Map<String, dynamic>> _villagerData = [];
+  int smashCount = 0;
+  int passCount = 0;
 
   Future<void> _loadVillagerData() async {
     final jsonString = await rootBundle.loadString('assets/villager_data.json');
@@ -27,6 +30,9 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       _villagerData = List<Map<String, dynamic>>.from(jsonData);
       _createSwipeItems();
     });
+
+    smashCount = await DatabaseHelper().getSmashCount();
+    passCount = await DatabaseHelper().getPassCount();
   }
 
   void _createSwipeItems() {
@@ -67,25 +73,33 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     return Color(int.parse(hexString, radix: 16));
   }
 
-  void _swipeLeft() {
+  void _swipeLeft() async {
     final SwipeItem? currentItem = _matchEngine?.currentItem;
 
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
-
-      handleSwipe(currentCard.animalData.id, 'pass');
+      currentCard.animalData.smashValue = 'pass';
+      await handleSwipe(currentCard.animalData);
+      final int newPassCount = await DatabaseHelper().getPassCount();
+      setState(() {
+        passCount = newPassCount;
+      });
       currentItem.nope();
     }
   }
 
-  void _swipeRight() {
+  void _swipeRight() async {
     final SwipeItem? currentItem = _matchEngine?.currentItem;
 
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
-
-      handleSwipe(currentCard.animalData.id, 'smash');
-      currentItem.like(); // Trigger right swipe (Yes)
+      currentCard.animalData.smashValue = 'smash';
+      await handleSwipe(currentCard.animalData);
+      final int newSmashCount = await DatabaseHelper().getSmashCount();
+      setState(() {
+        smashCount = newSmashCount;
+      });
+      currentItem.like();
     }
   }
 
@@ -93,14 +107,9 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     prefs = await SharedPreferences.getInstance();
   }
 
-  void handleSwipe(String animalID, String swipeValue) {
-    final Map<String, dynamic> swipeData = {
-      'id': animalID,
-      'swipeValue': swipeValue,
-    };
-
-    final String swipeDataJson = jsonEncode(swipeData);
-    prefs?.setString('swipeData', swipeDataJson);
+  Future<void> handleSwipe(AnimalData animalData) async {
+    await DatabaseHelper().insertAnimal(animalData);
+    await DatabaseHelper().logAllSwipedData();
   }
 
   @override
@@ -152,7 +161,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: Text(
-                      "Pass",
+                      "Pass ($passCount)",
                       style: TextStyle(fontSize: 26.0),
                     ),
                   ),
@@ -170,7 +179,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: Text(
-                      "Smash",
+                      "Smash ($smashCount)",
                       style: TextStyle(fontSize: 26.0),
                     ),
                   ),

@@ -13,32 +13,65 @@ class DatabaseHelper {
   Future<void> insertAnimal(AnimalData animalData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final String animalDataString = jsonEncode(animalData.toJson());
-
-    await prefs.setString('animal_${animalData.id}', animalDataString);
+    await prefs.setString(animalData.id, animalData.smashValue);
   }
 
-  Future<List<Map<String, dynamic>>> getAnimals() async {
+  Future<Map<String, String>> getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, String> animalDataMap = {};
 
-    final List<Map<String, dynamic>> animalList = [];
+    prefs.getKeys().forEach((key) {
+      animalDataMap[key] = prefs.getString(key)!;
+    });
 
-    final Map<String, String> allAnimalData =
+    return animalDataMap;
+  }
+
+  Future<void> logAllSwipedData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Set<String> keys = prefs.getKeys();
+
+    for (String key in keys) {
+      final String? value = prefs.getString(key);
+      if (value != null) {
+        print('$key: $value');
+      }
+    }
+  }
+
+  Future<int> getSmashCount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int count = 0;
+
+    final Map<String, String> allSwipedData =
         prefs.getKeys().fold<Map<String, String>>(
       {},
       (map, key) {
-        if (key.startsWith('animal_')) {
-          map[key] = prefs.getString(key)!;
+        final String swipeValue = prefs.getString(key)!;
+        if (swipeValue == 'smash') {
+          count++;
         }
         return map;
       },
     );
+    return count;
+  }
 
-    allAnimalData.forEach((key, value) {
-      final Map<String, dynamic> animal = jsonDecode(value);
-      animalList.add(animal);
-    });
+  Future<int> getPassCount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int count = 0;
 
-    return animalList;
+    final Map<String, String> allSwipedData =
+        prefs.getKeys().fold<Map<String, String>>(
+      {},
+      (map, key) {
+        final String swipeValue = prefs.getString(key)!;
+        if (swipeValue == 'pass') {
+          count++;
+        }
+        return map;
+      },
+    );
+    return count;
   }
 }

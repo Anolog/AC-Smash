@@ -10,7 +10,7 @@ class AnimalData {
   final String birthday;
   final String favoriteSaying;
   final String hobby;
-  final String smashValue = "";
+  String smashValue = "";
 
   AnimalData({
     required this.name,
