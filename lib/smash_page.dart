@@ -41,6 +41,13 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
 
     for (final data in _villagerData) {
       _swipeItems.add(SwipeItem(
+        likeAction: () {
+          _swipeRight();
+        },
+        nopeAction: () {
+          _swipeLeft();
+        },
+        onSlideUpdate: (SlideRegion? region) async {},
         content: AnimalCard(
           animalData: AnimalData(
             name: data['Name'],
@@ -84,13 +91,12 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       setState(() {
         passCount = newPassCount;
       });
-      currentItem.nope();
     }
   }
 
   void _swipeRight() async {
     final SwipeItem? currentItem = _matchEngine?.currentItem;
-
+    print("current item: $currentItem");
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
       currentCard.animalData.smashValue = 'smash';
@@ -99,7 +105,6 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       setState(() {
         smashCount = newSmashCount;
       });
-      currentItem.like();
     }
   }
 
@@ -131,6 +136,56 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                 height: 650,
                 width: 550,
                 child: SwipeCards(
+                  likeTag: Stack(
+                    children: [
+                      // Outline Text
+                      Text(
+                        'Smash',
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 6
+                            ..color = Colors.black,
+                        ),
+                      ),
+                      // Inner Text
+                      Text(
+                        'Smash',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 100,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  nopeTag: Stack(
+                    children: [
+                      // Outline Text
+                      Text(
+                        'Pass',
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 6
+                            ..color = Colors.black,
+                        ),
+                      ),
+                      // Inner Text
+                      Text(
+                        'Pass',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 100,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                   matchEngine: _matchEngine!,
                   itemBuilder: (BuildContext context, int index) {
                     return _swipeItems[index].content;
@@ -150,7 +205,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: _swipeLeft,
+                  onPressed: () => _matchEngine?.currentItem?.nope(),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -168,7 +223,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                 ),
                 SizedBox(width: 16.0),
                 ElevatedButton(
-                  onPressed: _swipeRight,
+                  onPressed: () => _matchEngine?.currentItem?.like(),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
