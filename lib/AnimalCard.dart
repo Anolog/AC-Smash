@@ -27,13 +27,40 @@ class AnimalCard extends StatelessWidget {
     }
   }
 
+  ColorFilter getColorFilterByHobby(String hobby) {
+    switch (hobby.toLowerCase()) {
+      case 'education':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 89, 180, 255), BlendMode.multiply);
+      case 'fashion':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 255, 96, 85), BlendMode.multiply);
+      case 'fitness':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 107, 230, 111), BlendMode.multiply);
+      case 'music':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 203, 118, 218), BlendMode.multiply);
+      case 'nature':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 51, 124, 54), BlendMode.multiply);
+      case 'play':
+        return ColorFilter.mode(
+            Color.fromARGB(255, 248, 174, 63), BlendMode.multiply);
+      default:
+        return ColorFilter.mode(Colors.white, BlendMode.multiply);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 650,
       width: 550,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
+          colorFilter: getColorFilterByHobby(animalData.hobby),
           image: AssetImage('AC-Background.png'),
           fit: BoxFit.fill,
         ),

@@ -127,6 +127,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 53, 53, 53),
       body: Center(
         child: Column(
           children: [
