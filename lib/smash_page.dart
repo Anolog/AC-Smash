@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,14 +54,16 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
             name: data['Name'],
             id: data['Unique Entry ID'],
             animalImage: data['Name'] != 'Ankha'
-                ? 'https://villagerdb.com/images/villagers/full/' +
-                    data['Name'].toString().toLowerCase() +
-                    '.png'
+                ? data['Icon Image']
                 : 'https://i.kym-cdn.com/photos/images/original/002/249/029/212.gif',
             backgroundImage:
                 'https://i.pinimg.com/originals/4c/b9/ce/4cb9cee09c182385c16fc51c9e029a91.jpg',
-            nameColor: hexToColor(data['Name Color']),
-            nameContainerColor: hexToColor(data['Bubble Color']),
+            nameColor: data['Name Color'] == ""
+                ? hexToColor("#4d2a20")
+                : hexToColor(data['Name Color']),
+            nameContainerColor: data['Bubble Color'] == ""
+                ? hexToColor("#de8735")
+                : hexToColor(data['Bubble Color']),
             birthday: data['Birthday'],
             favoriteSaying: data['Favorite Saying'],
             hobby: data['Hobby'],
@@ -68,12 +71,18 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
         ),
       ));
     }
+
+    _swipeItems.shuffle(Random());
+
     // Initialize the _matchEngine once all items are created
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
   }
 
   Color hexToColor(String hexString) {
-    if (hexString.length < 7) throw FormatException('Invalid HEX color.');
+    if (hexString.length < 7) {
+      print('error hex: ' + hexString);
+      throw FormatException('Invalid HEX color.');
+    }
 
     if (hexString.length == 7) hexString = 'FF' + hexString.substring(1);
 
@@ -127,7 +136,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 53, 53, 53),
+      backgroundColor: Color.fromARGB(255, 29, 29, 29),
       body: Center(
         child: Column(
           children: [

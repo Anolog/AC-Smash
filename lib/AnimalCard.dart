@@ -148,7 +148,7 @@ class AnimalCard extends StatelessWidget {
               )),
           // Favorite Saying
           Positioned(
-            bottom: 50,
+            bottom: 40,
             left: 30,
             child: Container(
               width: 490,
@@ -163,6 +163,7 @@ class AnimalCard extends StatelessWidget {
                       fontSize: 28,
                       fontFamily: 'Hind',
                       color: Color.fromARGB(255, 128, 114, 86),
+                      height: 0.9,
                     ),
                   ),
                 ],
