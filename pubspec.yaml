@@ -74,6 +74,9 @@ flutter:
     - assets/sounds/bruh.mp3
     - assets/sounds/fbi-open-up.mp3
     - assets/sounds/vine-boom.mp3
+    - assets/sounds/rizz.mp3
+    - assets/sounds/ayo-wtf.mp3
+    - assets/sounds/amongus.mp3
 
   fonts:
     - family: Hind

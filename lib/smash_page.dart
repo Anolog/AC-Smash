@@ -175,6 +175,18 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
         SoundManager().playSoundOnce('VineBoom');
       }
 
+      if (currentCard.animalData.name == "Leila") {
+        SoundManager().playSoundOnceVolumeAdjust('Ayo', 2.5);
+      }
+
+      if (currentCard.animalData.name == "Katie") {
+        SoundManager().playSoundOnce('Amongus');
+      }
+
+      if (currentCard.animalData == "Ankha") {
+        SoundManager().playSoundOnce('Rizz');
+      }
+
       await handleSwipe(currentCard.animalData);
       final int newSmashCount = await DatabaseHelper().getSmashCount();
       setState(() {

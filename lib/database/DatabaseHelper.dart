@@ -31,7 +31,7 @@ class DatabaseHelper {
     String? userId = prefs.getString('userId');
 
     //TODO: THIS IS COMMENTED OUT SO WE DON'T FLOOD DB WHEN TESTING.
-    /*
+/*
     // Upload data to Firebase
     if (userId != null) {
       await _database
