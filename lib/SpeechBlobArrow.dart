@@ -37,7 +37,7 @@ class _SpeechBlobArrowState extends State<SpeechBlobArrow>
       builder: (context, child) {
         return Transform.scale(
           scale: _animation.value,
-          child: Image.asset('arrow.png'),
+          child: Image.asset('assets/images/arrow.png'),
         );
       },
     );

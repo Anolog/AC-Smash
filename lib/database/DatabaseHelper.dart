@@ -17,7 +17,7 @@ class DatabaseHelper {
 
   Future<String> generateAndSaveUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = Uuid().v4();
+    String userId = const Uuid().v4();
     await prefs.setString('userId', userId);
     return userId;
   }
@@ -30,6 +30,8 @@ class DatabaseHelper {
     // Get user ID from SharedPreferences
     String? userId = prefs.getString('userId');
 
+    //TODO: THIS IS COMMENTED OUT SO WE DON'T FLOOD DB WHEN TESTING.
+    /*
     // Upload data to Firebase
     if (userId != null) {
       await _database
@@ -57,6 +59,7 @@ class DatabaseHelper {
           .child('passCount')
           .set(counts['passCount'] + 1);
     }
+    */
   }
 
   Future<Map<String, String>> getData() async {
@@ -157,7 +160,7 @@ class DatabaseHelper {
                   .snapshot !=
               null &&
           (await _database.child('villagerTotals').child(villagerID).once())
-                  .snapshot!
+                  .snapshot
                   .value !=
               null) {
         Map<dynamic, dynamic> data =

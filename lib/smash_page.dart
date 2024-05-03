@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:ac_smash/SoundManager.dart';
 import 'package:ac_smash/VillagerFeedbackWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -30,6 +31,8 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   int _currentIndex = 1;
   int _total = 0;
   bool _complete = false;
+  bool _hasPlayedBruh = false;
+  bool _hasPlayedFBI = false;
 
   Future<void> _loadVillagerData() async {
     // Fetch data from Firebase
@@ -55,7 +58,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
           name: data['Name'],
           id: id,
           animalImage: data['Icon Image'],
-          backgroundImage: "assets/AC-Background.png",
+          backgroundImage: "assets/images/AC-Background.png",
           nameColor: hexToColor(data['Name Color']),
           nameContainerColor: hexToColor(data['Bubble Color']),
           birthday: data['Birthday'],
@@ -156,6 +159,22 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
       currentCard.animalData.smashValue = 'smash';
+
+      if (currentCard.animalData.name == 'Tommy' ||
+          currentCard.animalData.name == 'Timmy') {
+        if (_hasPlayedBruh == false) {
+          SoundManager().playSoundOnce('Bruh');
+          _hasPlayedBruh = true;
+        } else {
+          SoundManager().playSoundOnce('FBI');
+          _hasPlayedFBI = true;
+        }
+      }
+
+      if (currentCard.animalData.name == "Daisy Mae") {
+        SoundManager().playSoundOnce('VineBoom');
+      }
+
       await handleSwipe(currentCard.animalData);
       final int newSmashCount = await DatabaseHelper().getSmashCount();
       setState(() {

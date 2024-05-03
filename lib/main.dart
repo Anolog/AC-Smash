@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'SoundManager.dart';
 import 'database/DatabaseHelper.dart';
 import 'firebase_options.dart';
 import 'smash_page.dart';
@@ -19,6 +20,8 @@ void main() async {
   //await prefs.clear();
   String? storedUserId = await DatabaseHelper().generateAndSaveUserId();
   prefs.setString('userId', storedUserId);
+
+  SoundManager().initialize();
 
   runApp(const MyApp());
 }

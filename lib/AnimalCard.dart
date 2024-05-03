@@ -61,7 +61,7 @@ class AnimalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           colorFilter: getColorFilterByHobby(animalData.hobby),
-          image: AssetImage('AC-Background.png'),
+          image: AssetImage('assets/images/AC-Background.png'),
           fit: BoxFit.fill,
         ),
       ),
@@ -79,7 +79,7 @@ class AnimalCard extends StatelessWidget {
                   return child;
                 } else {
                   return Image.asset(
-                    'assets/loading-placeholder.gif',
+                    'assets/images/loading-placeholder.gif',
                     fit: BoxFit.contain,
                     width: 350,
                     height: 450,
@@ -98,7 +98,7 @@ class AnimalCard extends StatelessWidget {
             child: Container(
               alignment: Alignment.center,
               width: 550,
-              child: Image.asset('ACNH-Speech-Blob.png'),
+              child: Image.asset('assets/images/ACNH-Speech-Blob.png'),
             ),
           ),
           // Name Container
