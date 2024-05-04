@@ -121,7 +121,7 @@ class AnimalCard extends StatelessWidget {
             child: Icon(
               Icons.cake,
               size: 75,
-              color: Color.fromARGB(255, 180, 80, 80),
+              color: Color.fromARGB(255, 114, 114, 114),
             ),
           ),
           // Birthday Text
@@ -133,7 +133,7 @@ class AnimalCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontFamily: 'Hind',
-                color: Color.fromARGB(255, 8, 8, 8),
+                color: Colors.black,
               ),
             ),
           ),
@@ -144,7 +144,7 @@ class AnimalCard extends StatelessWidget {
               child: Icon(
                 getHobbyIcon(animalData.hobby),
                 size: 50,
-                color: Color.fromARGB(255, 180, 80, 80),
+                color: Colors.black,
               )),
           // Favorite Saying
           Positioned(

@@ -22,7 +22,7 @@ class VillagerFeedbackWidget extends StatelessWidget {
         Text(
           "What others chose for $villagerName...",
           style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white70),
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         SizedBox(height: 10),
         Row(
