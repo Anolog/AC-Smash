@@ -22,13 +22,18 @@ class VillagerFeedbackWidget extends StatelessWidget {
         Text(
           "What others chose for $villagerName...",
           style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white70),
         ),
         SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            OutlinedVillagerSquare(imageUrl: imageURL),
+            OutlinedVillagerSquare(
+              imageUrl: imageURL,
+              width: 125,
+              height: 125,
+              borderColor: Colors.white,
+            ),
             SizedBox(width: 20),
             FeedbackBar(
               label: "Smashes",

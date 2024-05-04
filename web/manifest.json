@@ -1,11 +1,11 @@
 {
-    "name": "ac_smash",
+    "name": "Animal Crossing Smash or Pass",
     "short_name": "ac_smash",
     "start_url": ".",
     "display": "browser",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Animal crossing smash or pass. Every day we stray further from god...",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

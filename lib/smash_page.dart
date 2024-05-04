@@ -24,6 +24,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   MatchEngine? _matchEngine;
   List<SwipeItem> _swipeItems = [];
   List<AnimalData> _villagerData = [];
+  Map<String, String> _swipedVillagerData = {};
   AnimalData? _previousAnimalData;
   int smashCount = 0;
   int passCount = 0;
@@ -144,6 +145,8 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
       currentCard.animalData.smashValue = 'pass';
+      _swipedVillagerData[currentCard.animalData.animalImage] = 'pass';
+
       await handleSwipe(currentCard.animalData);
       final int newPassCount = await DatabaseHelper().getPassCount();
       setState(() {
@@ -159,6 +162,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
       currentCard.animalData.smashValue = 'smash';
+      _swipedVillagerData[currentCard.animalData.animalImage] = 'smash';
 
       if (currentCard.animalData.name == 'Tommy' ||
           currentCard.animalData.name == 'Timmy') {
@@ -283,7 +287,17 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                   },
                   onStackFinished: () {
                     _complete = true;
-                    showStatsDialog(context, passCount, smashCount, _complete);
+                    SoundManager()
+                        .playSoundOnceVolumeAdjust('Achievement', 0.7);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => StatsDialog(
+                        passCount: passCount,
+                        smashCount: smashCount,
+                        completed: _complete,
+                        villagersSwiped: _swipedVillagerData,
+                      ),
+                    );
                   },
                   itemChanged: (SwipeItem item, int index) {
                     setState(() {
@@ -340,22 +354,29 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                 ),
                 SizedBox(width: 16.0),
                 ElevatedButton(
-                    onPressed: () => showStatsDialog(
-                        context, passCount, smashCount, _complete),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => StatsDialog(
+                        passCount: passCount,
+                        smashCount: smashCount,
+                        completed: _complete,
+                        villagersSwiped: _swipedVillagerData,
                       ),
-                      primary: Color.fromRGBO(0, 199, 165, 1.0),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 10.0),
-                      child: Text(
-                        "Stats",
-                        style: TextStyle(fontSize: 26.0),
-                      ),
-                    ))
+                    primary: Color.fromRGBO(0, 199, 165, 1.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 10.0),
+                    child: Text("Show Stats", style: TextStyle(fontSize: 26.0)),
+                  ),
+                ),
               ],
             ),
             SizedBox(

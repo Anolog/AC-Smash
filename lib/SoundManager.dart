@@ -16,6 +16,7 @@ class SoundManager {
       'Ayo': 'sounds/ayo-wtf.mp3',
       'Rizz': 'sounds/rizz.mp3',
       'Amongus': 'sounds/amongus.mp3',
+      'Achievement': 'sounds/city-folk-achievement.mp3',
     };
   }
 

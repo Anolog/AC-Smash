@@ -20,7 +20,7 @@ class FeedbackBar extends StatelessWidget {
         ),
         SizedBox(height: 5),
         Container(
-          width: 10 + (percentage * 1.2),
+          width: 15 + (percentage * 1.2),
           height: 20,
           decoration: BoxDecoration(
             color: color,
@@ -29,7 +29,7 @@ class FeedbackBar extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                left: 0,
+                left: 5,
                 top: 0,
                 bottom: 0,
                 // Adjust multiplier as needed
