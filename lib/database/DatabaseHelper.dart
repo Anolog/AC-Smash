@@ -31,7 +31,7 @@ class DatabaseHelper {
     String? userId = prefs.getString('userId');
 
     //TODO: THIS IS COMMENTED OUT SO WE DON'T FLOOD DB WHEN TESTING.
-/*
+
     // Upload data to Firebase
     if (userId != null) {
       await _database
@@ -59,7 +59,6 @@ class DatabaseHelper {
           .child('passCount')
           .set(counts['passCount'] + 1);
     }
-    */
   }
 
   Future<Map<String, String>> getData() async {
