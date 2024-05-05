@@ -12,6 +12,7 @@ import 'AnimalData.dart';
 import 'SpeechBlobs.dart';
 import 'database/DatabaseHelper.dart';
 import 'StatsDialog.dart';
+import 'WelcomeDialog.dart';
 
 class SwipeCardsPage extends StatefulWidget {
   @override
@@ -210,10 +211,22 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     //await DatabaseHelper().logAllSwipedData();
   }
 
+  void _showWelcomeDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WelcomeDialog();
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     initSharedPreferences();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWelcomeDialog();
+    });
     _loadVillagerData();
   }
 
