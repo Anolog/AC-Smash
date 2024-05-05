@@ -111,14 +111,12 @@ class WelcomeDialog extends StatelessWidget {
   }
 
   Future<String> fetchSpecialThanks() async {
-    /*
-    final response = await http.get(Uri.parse(''));
+    final response = await http.get(Uri.parse(
+        'https://raw.githubusercontent.com/Anolog/ac-smash/master/SpecialThanks.txt'));
     if (response.statusCode == 200) {
       return response.body;
     } else {
       return "Failed to fetch the Special Thanks list :(";
     }
-    */
-    return "Special thanks list goes here.";
   }
 }
