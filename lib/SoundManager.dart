@@ -17,6 +17,9 @@ class SoundManager {
       'Rizz': 'sounds/rizz.mp3',
       'Amongus': 'sounds/amongus.mp3',
       'Achievement': 'sounds/city-folk-achievement.mp3',
+      'Amazed': 'sounds/ac-amazed.mp3',
+      'Shocked': 'sounds/ac-shocked.mp3',
+      'MainTheme': 'sounds/Main_Theme_PG.mp3',
     };
   }
 

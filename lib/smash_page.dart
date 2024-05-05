@@ -185,7 +185,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       }
 
       if (currentCard.animalData.name == "Katie") {
-        SoundManager().playSoundOnce('Amongus');
+        SoundManager().playSoundOnce('Shocked');
       }
 
       if (currentCard.animalData == "Ankha") {
@@ -224,6 +224,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   void initState() {
     super.initState();
     initSharedPreferences();
+    SoundManager().playSoundOnceVolumeAdjust('MainTheme', 0.7);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWelcomeDialog();
     });

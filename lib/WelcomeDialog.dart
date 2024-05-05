@@ -1,3 +1,4 @@
+import 'package:ac_smash/SoundManager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -89,7 +90,10 @@ class WelcomeDialog extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => {
+                  Navigator.of(context).pop(),
+                  SoundManager().playSoundOnce('Amazed')
+                },
                 child: Text("Close"),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue,
