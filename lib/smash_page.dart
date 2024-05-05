@@ -224,7 +224,6 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   void initState() {
     super.initState();
     initSharedPreferences();
-    SoundManager().playSoundOnceVolumeAdjust('MainTheme', 0.7);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWelcomeDialog();
     });

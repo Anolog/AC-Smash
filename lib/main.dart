@@ -17,9 +17,8 @@ void main() async {
 
   // Initialize SharedPreferences
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
+  //await prefs.clear();
 
-  prefs.setBool('welcomeDialogShown', false);
   String? storedUserId = await DatabaseHelper().generateAndSaveUserId();
   prefs.setString('userId', storedUserId);
 
