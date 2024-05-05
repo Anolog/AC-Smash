@@ -181,7 +181,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       }
 
       if (currentCard.animalData.name == "Leila") {
-        SoundManager().playSoundOnceVolumeAdjust('Ayo', 2.5);
+        SoundManager().playSoundOnceVolumeAdjust('Ayo', 0.5);
       }
 
       if (currentCard.animalData.name == "Katie") {
