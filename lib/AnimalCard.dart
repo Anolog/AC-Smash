@@ -8,8 +8,8 @@ class AnimalCard extends StatelessWidget {
 
   AnimalCard({required this.animalData});
 
-  IconData getHobbyIcon(String hobby) {
-    switch (hobby.toLowerCase()) {
+  IconData GetHobbyIcon(String pHobby) {
+    switch (pHobby.toLowerCase()) {
       case 'education':
         return Icons.school;
       case 'fashion':
@@ -27,8 +27,8 @@ class AnimalCard extends StatelessWidget {
     }
   }
 
-  ColorFilter getColorFilterByHobby(String hobby) {
-    switch (hobby.toLowerCase()) {
+  ColorFilter GetColorFilterByHobby(String pHobby) {
+    switch (pHobby.toLowerCase()) {
       case 'education':
         return ColorFilter.mode(
             Color.fromARGB(255, 89, 180, 255), BlendMode.multiply);
@@ -60,7 +60,7 @@ class AnimalCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          colorFilter: getColorFilterByHobby(animalData.hobby),
+          colorFilter: GetColorFilterByHobby(animalData.hobby),
           image: AssetImage('assets/images/AC-Background.png'),
           fit: BoxFit.fill,
         ),
@@ -108,9 +108,9 @@ class AnimalCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(8),
               child: AnimalNameComponent(
-                text: animalData.name,
-                nameColor: animalData.nameColor,
-                nameContainerColor: animalData.nameContainerColor,
+                pText: animalData.name,
+                pNameColor: animalData.nameColor,
+                pNameContainerColor: animalData.nameContainerColor,
               ),
             ),
           ),
@@ -142,7 +142,7 @@ class AnimalCard extends StatelessWidget {
               top: 40,
               right: 47,
               child: Icon(
-                getHobbyIcon(animalData.hobby),
+                GetHobbyIcon(animalData.hobby),
                 size: 50,
                 color: Colors.black,
               )),

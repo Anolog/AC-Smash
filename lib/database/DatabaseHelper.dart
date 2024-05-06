@@ -15,17 +15,17 @@ class DatabaseHelper {
     _database = FirebaseDatabase.instance.reference();
   }
 
-  Future<String> generateAndSaveUserId() async {
+  Future<String> GenerateAndSaveUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId = const Uuid().v4();
     await prefs.setString('userId', userId);
     return userId;
   }
 
-  Future<void> insertAnimal(AnimalData animalData) async {
+  Future<void> InsertAnimal(AnimalData pAnimalData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(animalData.id, animalData.smashValue);
+    await prefs.setString(pAnimalData.id, pAnimalData.smashValue);
 
     // Get user ID from SharedPreferences
     String? userId = prefs.getString('userId');
@@ -37,31 +37,31 @@ class DatabaseHelper {
       await _database
           .child('users')
           .child(userId)
-          .child(animalData.id)
-          .set(animalData.smashValue);
+          .child(pAnimalData.id)
+          .set(pAnimalData.smashValue);
     }
 
     Map<String, dynamic> counts =
-        (await DatabaseHelper().getVillagerCounts(animalData.id));
+        (await DatabaseHelper().GetVillagerCounts(pAnimalData.id));
 
-    if (animalData.smashValue == "smash") {
+    if (pAnimalData.smashValue == "smash") {
       // Update smash count in the database
       await _database
           .child('villagerTotals')
-          .child(animalData.id)
+          .child(pAnimalData.id)
           .child('smashCount')
           .set(counts['smashCount'] + 1);
-    } else if (animalData.smashValue == "pass") {
+    } else if (pAnimalData.smashValue == "pass") {
       // Update pass count in the database
       await _database
           .child('villagerTotals')
-          .child(animalData.id)
+          .child(pAnimalData.id)
           .child('passCount')
           .set(counts['passCount'] + 1);
     }
   }
 
-  Future<Map<String, String>> getData() async {
+  Future<Map<String, String>> GetData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, String> animalDataMap = {};
 
@@ -72,7 +72,7 @@ class DatabaseHelper {
     return animalDataMap;
   }
 
-  Future<void> logAllSwipedData() async {
+  Future<void> LogAllSwipedData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final Set<String> keys = prefs.getKeys();
 
@@ -84,7 +84,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<int> getSmashCount() async {
+  Future<int> GetSmashCount() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int count = 0;
 
@@ -102,7 +102,7 @@ class DatabaseHelper {
     return count;
   }
 
-  Future<int> getPassCount() async {
+  Future<int> GetPassCount() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int count = 0;
 
@@ -120,7 +120,7 @@ class DatabaseHelper {
     return count;
   }
 
-  Future<Map<String, dynamic>> getFirebaseVillagerData() async {
+  Future<Map<String, dynamic>> GetFirebaseVillagerData() async {
     DataSnapshot? snapshot;
     await _database.child('villagers').once().then((event) {
       if (event.snapshot != null) {
@@ -152,18 +152,18 @@ class DatabaseHelper {
     return {};
   }
 
-  Future<Map<String, dynamic>> getVillagerCounts(String villagerID) async {
+  Future<Map<String, dynamic>> GetVillagerCounts(String pVillagerID) async {
     try {
       // Check if the event contains a snapshot
-      if ((await _database.child('villagerTotals').child(villagerID).once())
+      if ((await _database.child('villagerTotals').child(pVillagerID).once())
                   .snapshot !=
               null &&
-          (await _database.child('villagerTotals').child(villagerID).once())
+          (await _database.child('villagerTotals').child(pVillagerID).once())
                   .snapshot
                   .value !=
               null) {
         Map<dynamic, dynamic> data =
-            (await _database.child('villagerTotals').child(villagerID).once())
+            (await _database.child('villagerTotals').child(pVillagerID).once())
                 .snapshot
                 .value as Map<dynamic, dynamic>;
 

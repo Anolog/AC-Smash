@@ -19,7 +19,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  String? storedUserId = await DatabaseHelper().generateAndSaveUserId();
+  String? storedUserId = await DatabaseHelper().GenerateAndSaveUserId();
   prefs.setString('userId', storedUserId);
 
   SoundManager().initialize();

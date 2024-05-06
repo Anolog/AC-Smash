@@ -9,7 +9,6 @@ import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 import 'AnimalCard.dart';
 import 'AnimalData.dart';
-import 'SpeechBlobs.dart';
 import 'database/DatabaseHelper.dart';
 import 'StatsDialog.dart';
 import 'WelcomeDialog.dart';
@@ -20,15 +19,15 @@ class SwipeCardsPage extends StatefulWidget {
 }
 
 class _SwipeCardsPageState extends State<SwipeCardsPage> {
-  SharedPreferences? prefs;
+  SharedPreferences? _prefs;
 
   MatchEngine? _matchEngine;
   List<SwipeItem> _swipeItems = [];
   List<AnimalData> _villagerData = [];
   Map<String, String> _swipedVillagerData = {};
   AnimalData? _previousAnimalData;
-  int smashCount = 0;
-  int passCount = 0;
+  int _smashCount = 0;
+  int _passCount = 0;
 
   int _currentIndex = 1;
   int _total = 0;
@@ -36,10 +35,10 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   bool _hasPlayedBruh = false;
   bool _hasPlayedFBI = false;
 
-  Future<void> _loadVillagerData() async {
+  Future<void> LoadVillagerData() async {
     // Fetch data from Firebase
     final Map<String, dynamic> firebaseData =
-        await DatabaseHelper().getFirebaseVillagerData();
+        await DatabaseHelper().GetFirebaseVillagerData();
 
     // Convert Firebase data to AnimalData objects
     List<AnimalData> animalDataList = [];
@@ -61,8 +60,8 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
           id: id,
           animalImage: data['Icon Image'],
           backgroundImage: "assets/images/AC-Background.png",
-          nameColor: hexToColor(data['Name Color']),
-          nameContainerColor: hexToColor(data['Bubble Color']),
+          nameColor: HexToColor(data['Name Color']),
+          nameContainerColor: HexToColor(data['Bubble Color']),
           birthday: data['Birthday'],
           favoriteSaying: data['Favorite Saying'],
           hobby: data['Hobby'],
@@ -76,25 +75,25 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
 
     setState(() {
       _villagerData = animalDataList;
-      _createSwipeItems();
+      CreateSwipeItems();
     });
 
     // Load smash and pass count from local storage
-    smashCount = await DatabaseHelper().getSmashCount();
-    passCount = await DatabaseHelper().getPassCount();
+    _smashCount = await DatabaseHelper().GetSmashCount();
+    _passCount = await DatabaseHelper().GetPassCount();
   }
 
-  void _createSwipeItems() {
+  void CreateSwipeItems() {
     // Clear the existing _swipeItems list
     _swipeItems.clear();
 
     for (final data in _villagerData) {
       _swipeItems.add(SwipeItem(
         likeAction: () {
-          _swipeRight();
+          SwipeRight();
         },
         nopeAction: () {
-          _swipeLeft();
+          SwipeLeft();
         },
         onSlideUpdate: (SlideRegion? region) async {},
         content: AnimalCard(
@@ -107,9 +106,9 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
             backgroundImage:
                 'https://i.pinimg.com/originals/4c/b9/ce/4cb9cee09c182385c16fc51c9e029a91.jpg',
             nameColor:
-                data.nameColor == "" ? hexToColor("#4d2a20") : data.nameColor,
+                data.nameColor == "" ? HexToColor("#4d2a20") : data.nameColor,
             nameContainerColor: data.nameContainerColor == ""
-                ? hexToColor("#de8735")
+                ? HexToColor("#de8735")
                 : data.nameContainerColor,
             birthday: data.birthday,
             favoriteSaying: data.favoriteSaying,
@@ -126,21 +125,21 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
   }
 
-  Color hexToColor(String hexString) {
-    if (hexString.length == 0) {
-      return hexToColor("#4d2a20");
+  Color HexToColor(String pHexString) {
+    if (pHexString.length == 0) {
+      return HexToColor("#4d2a20");
     }
-    if (hexString.length < 7) {
-      print('error hex: ' + hexString);
+    if (pHexString.length < 7) {
+      print('error hex: ' + pHexString);
       throw FormatException('Invalid HEX color.');
     }
 
-    if (hexString.length == 7) hexString = 'FF' + hexString.substring(1);
+    if (pHexString.length == 7) pHexString = 'FF' + pHexString.substring(1);
 
-    return Color(int.parse(hexString, radix: 16));
+    return Color(int.parse(pHexString, radix: 16));
   }
 
-  void _swipeLeft() async {
+  void SwipeLeft() async {
     final SwipeItem? currentItem = _matchEngine?.currentItem;
 
     if (currentItem != null) {
@@ -149,16 +148,16 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       _swipedVillagerData[currentCard.animalData.animalImage] = 'pass';
 
       await handleSwipe(currentCard.animalData);
-      final int newPassCount = await DatabaseHelper().getPassCount();
+      final int newPassCount = await DatabaseHelper().GetPassCount();
       setState(() {
-        passCount = newPassCount;
+        _passCount = newPassCount;
       });
 
       _previousAnimalData = currentCard.animalData;
     }
   }
 
-  void _swipeRight() async {
+  void SwipeRight() async {
     final SwipeItem? currentItem = _matchEngine?.currentItem;
     if (currentItem != null) {
       final AnimalCard currentCard = currentItem.content as AnimalCard;
@@ -168,50 +167,50 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
       if (currentCard.animalData.name == 'Tommy' ||
           currentCard.animalData.name == 'Timmy') {
         if (_hasPlayedBruh == false) {
-          SoundManager().playSoundOnce('Bruh');
+          SoundManager().PlaySoundOnce('Bruh');
           _hasPlayedBruh = true;
         } else {
-          SoundManager().playSoundOnce('FBI');
+          SoundManager().PlaySoundOnce('FBI');
           _hasPlayedFBI = true;
         }
       }
-
+      //Could probably be a case instead of ifs, but here we are...
       if (currentCard.animalData.name == "Daisy Mae") {
-        SoundManager().playSoundOnce('VineBoom');
+        SoundManager().PlaySoundOnce('VineBoom');
       }
 
       if (currentCard.animalData.name == "Leila") {
-        SoundManager().playSoundOnceVolumeAdjust('Ayo', 0.5);
+        SoundManager().PlaySoundOnceVolumeAdjust('Ayo', 0.5);
       }
 
       if (currentCard.animalData.name == "Katie") {
-        SoundManager().playSoundOnce('Shocked');
+        SoundManager().PlaySoundOnce('Shocked');
       }
 
       if (currentCard.animalData == "Ankha") {
-        SoundManager().playSoundOnce('Rizz');
+        SoundManager().PlaySoundOnce('Rizz');
       }
 
       await handleSwipe(currentCard.animalData);
-      final int newSmashCount = await DatabaseHelper().getSmashCount();
+      final int newSmashCount = await DatabaseHelper().GetSmashCount();
       setState(() {
-        smashCount = newSmashCount;
+        _smashCount = newSmashCount;
       });
 
       _previousAnimalData = currentCard.animalData;
     }
   }
 
-  Future<void> initSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
+  Future<void> InitSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
   Future<void> handleSwipe(AnimalData animalData) async {
-    await DatabaseHelper().insertAnimal(animalData);
+    await DatabaseHelper().InsertAnimal(animalData);
     //await DatabaseHelper().logAllSwipedData();
   }
 
-  void _showWelcomeDialog() {
+  void ShowWelcomeDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -223,11 +222,11 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
   @override
   void initState() {
     super.initState();
-    initSharedPreferences();
+    InitSharedPreferences();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showWelcomeDialog();
+      ShowWelcomeDialog();
     });
-    _loadVillagerData();
+    LoadVillagerData();
   }
 
   @override
@@ -301,14 +300,14 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                   onStackFinished: () {
                     _complete = true;
                     SoundManager()
-                        .playSoundOnceVolumeAdjust('Achievement', 0.7);
+                        .PlaySoundOnceVolumeAdjust('Achievement', 0.7);
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => StatsDialog(
-                        passCount: passCount,
-                        smashCount: smashCount,
-                        completed: _complete,
-                        villagersSwiped: _swipedVillagerData,
+                        pPassCount: _passCount,
+                        pSmashCount: _smashCount,
+                        pCompleted: _complete,
+                        pVillagersSwiped: _swipedVillagerData,
                       ),
                     );
                   },
@@ -342,7 +341,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: Text(
-                      "Pass ($passCount)",
+                      "Pass ($_passCount)",
                       style: TextStyle(fontSize: 26.0),
                     ),
                   ),
@@ -360,7 +359,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: Text(
-                      "Smash ($smashCount)",
+                      "Smash ($_smashCount)",
                       style: TextStyle(fontSize: 26.0),
                     ),
                   ),
@@ -371,10 +370,10 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => StatsDialog(
-                        passCount: passCount,
-                        smashCount: smashCount,
-                        completed: _complete,
-                        villagersSwiped: _swipedVillagerData,
+                        pPassCount: _passCount,
+                        pSmashCount: _smashCount,
+                        pCompleted: _complete,
+                        pVillagersSwiped: _swipedVillagerData,
                       ),
                     );
                   },
@@ -397,7 +396,7 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
               child: _previousAnimalData != null
                   ? FutureBuilder<Map<String, dynamic>>(
                       future: DatabaseHelper()
-                          .getVillagerCounts(_previousAnimalData!.id),
+                          .GetVillagerCounts(_previousAnimalData!.id),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -413,10 +412,10 @@ class _SwipeCardsPageState extends State<SwipeCardsPage> {
                         int passCount =
                             (snapshot.data?['passCount'] ?? 0) as int;
                         return VillagerFeedbackWidget(
-                          villagerName: _previousAnimalData?.name ?? "",
-                          imageURL: _previousAnimalData?.animalImage ?? "",
-                          smashCount: smashCount,
-                          passCount: passCount,
+                          pVillagerName: _previousAnimalData?.name ?? "",
+                          pImageURL: _previousAnimalData?.animalImage ?? "",
+                          pSmashCount: smashCount,
+                          pPassCount: passCount,
                         );
                       },
                     )

@@ -8,15 +8,15 @@ class FancyDialogueBlobs extends StatelessWidget {
       height: 300,
       child: Column(
         children: [
-          _buildTopBlob(context),
+          BuildTopBlob(context),
           SizedBox(height: 10),
-          _buildBottomBlob(context),
+          BuildBottomBlob(context),
         ],
       ),
     );
   }
 
-  Widget _buildTopBlob(BuildContext context) {
+  Widget BuildTopBlob(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.075,
       decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class FancyDialogueBlobs extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomBlob(BuildContext context) {
+  Widget BuildBottomBlob(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.40,
       width: MediaQuery.of(context).size.width * 0.94,

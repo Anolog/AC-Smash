@@ -49,7 +49,7 @@ class WelcomeDialog extends StatelessWidget {
               ),
               SizedBox(height: 10),
               FutureBuilder(
-                future: fetchSpecialThanks(),
+                future: FetchSpecialThanks(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -92,7 +92,7 @@ class WelcomeDialog extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => {
                   Navigator.of(context).pop(),
-                  SoundManager().playSoundOnce('Amazed')
+                  SoundManager().PlaySoundOnce('Amazed')
                 },
                 child: Text("Close"),
                 style: ElevatedButton.styleFrom(
@@ -110,7 +110,7 @@ class WelcomeDialog extends StatelessWidget {
     );
   }
 
-  Future<String> fetchSpecialThanks() async {
+  Future<String> FetchSpecialThanks() async {
     final response = await http.get(Uri.parse(
         'https://raw.githubusercontent.com/Anolog/ac-smash/master/SpecialThanks.txt'));
     if (response.statusCode == 200) {

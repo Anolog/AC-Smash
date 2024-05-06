@@ -3,17 +3,20 @@ import 'AnimalData.dart';
 import 'OutlinedVillagerSquare.dart';
 
 class StatsDialog extends StatefulWidget {
-  final int passCount;
-  final int smashCount;
-  final bool completed;
-  final Map<String, String> villagersSwiped;
+  final int _passCount;
+  final int _smashCount;
+  final bool _completed;
+  final Map<String, String> _villagersSwiped;
 
   StatsDialog({
-    required this.passCount,
-    required this.smashCount,
-    required this.completed,
-    required this.villagersSwiped,
-  });
+    required int pPassCount,
+    required int pSmashCount,
+    required bool pCompleted,
+    required Map<String, String> pVillagersSwiped,
+  })  : _villagersSwiped = pVillagersSwiped,
+        _completed = pCompleted,
+        _smashCount = pSmashCount,
+        _passCount = pPassCount;
 
   @override
   _StatsDialogState createState() => _StatsDialogState();
@@ -25,7 +28,7 @@ class _StatsDialogState extends State<StatsDialog> {
   @override
   void initState() {
     super.initState();
-    filteredEntries = widget.villagersSwiped.entries.toList();
+    filteredEntries = widget._villagersSwiped.entries.toList();
   }
 
   @override
@@ -43,7 +46,7 @@ class _StatsDialogState extends State<StatsDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.completed == true
+              widget._completed == true
                   ? "Congratulations, you are a degenerate!"
                   : "",
               style: TextStyle(
@@ -53,9 +56,9 @@ class _StatsDialogState extends State<StatsDialog> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
-            Text("Your Passes: ${widget.passCount}",
+            Text("Your Passes: ${widget._passCount}",
                 style: TextStyle(fontSize: 24, color: Colors.red)),
-            Text("Your Smashes: ${widget.smashCount}",
+            Text("Your Smashes: ${widget._smashCount}",
                 style: TextStyle(fontSize: 24, color: Colors.green)),
             SizedBox(height: 20),
             ElevatedButton(
@@ -72,25 +75,25 @@ class _StatsDialogState extends State<StatsDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildElevatedButton("Smash", () {
+                BuildElevatedButton("Smash", () {
                   setState(() {
-                    filteredEntries = widget.villagersSwiped.entries
+                    filteredEntries = widget._villagersSwiped.entries
                         .where((entry) => entry.value == 'smash')
                         .toList();
                   });
                 }),
                 SizedBox(width: 10),
-                buildElevatedButton("Pass", () {
+                BuildElevatedButton("Pass", () {
                   setState(() {
-                    filteredEntries = widget.villagersSwiped.entries
+                    filteredEntries = widget._villagersSwiped.entries
                         .where((entry) => entry.value == 'pass')
                         .toList();
                   });
                 }),
                 SizedBox(width: 10),
-                buildElevatedButton("All", () {
+                BuildElevatedButton("All", () {
                   setState(() {
-                    filteredEntries = widget.villagersSwiped.entries.toList();
+                    filteredEntries = widget._villagersSwiped.entries.toList();
                   });
                 }),
               ],
@@ -112,10 +115,10 @@ class _StatsDialogState extends State<StatsDialog> {
                           ? Colors.red
                           : Colors.transparent;
                   return OutlinedVillagerSquare(
-                    imageUrl: imageUrl,
-                    width: 50,
-                    height: 50,
-                    borderColor: borderColor,
+                    pImageUrl: imageUrl,
+                    pWidth: 50,
+                    pWeight: 50,
+                    pBorderColor: borderColor,
                   );
                 }).toList(),
               ),
@@ -126,13 +129,13 @@ class _StatsDialogState extends State<StatsDialog> {
     );
   }
 
-  ElevatedButton buildElevatedButton(String text, VoidCallback onPressed) {
+  ElevatedButton BuildElevatedButton(String pText, VoidCallback pOnPressed) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: pOnPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: Text(
-          text,
+          pText,
           style: TextStyle(fontSize: 26.0),
         ),
       ),

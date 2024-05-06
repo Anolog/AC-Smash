@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 
 class OutlinedVillagerSquare extends StatelessWidget {
-  final String imageUrl;
-  final double width;
-  final double height;
-  final Color borderColor;
+  final String _imageUrl;
+  final double _width;
+  final double _height;
+  final Color _borderColor;
 
   OutlinedVillagerSquare(
-      {required this.imageUrl,
-      required this.width,
-      required this.height,
-      required this.borderColor});
+      {required String pImageUrl,
+      required double pWidth,
+      required double pWeight,
+      required Color pBorderColor})
+      : _borderColor = pBorderColor,
+        _height = pWeight,
+        _width = pWidth,
+        _imageUrl = pImageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
+      width: _width,
+      height: _height,
       decoration: BoxDecoration(
-        border: Border.all(color: borderColor, width: 2),
+        border: Border.all(color: _borderColor, width: 2),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Image.network(imageUrl),
+      child: Image.network(_imageUrl),
     );
   }
 }

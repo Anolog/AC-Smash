@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class FeedbackBar extends StatelessWidget {
-  final String label;
-  final Color color;
-  final int percentage;
+  final String _label;
+  final Color _color;
+  final int _percentage;
 
   FeedbackBar(
-      {required this.label, required this.color, required this.percentage});
+      {required String pLabel, required Color pColor, required int pPercentage})
+      : _percentage = pPercentage,
+        _color = pColor,
+        _label = pLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +17,16 @@ class FeedbackBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          _label,
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         SizedBox(height: 5),
         Container(
-          width: 15 + (percentage * 1.2),
+          width: 15 + (_percentage * 1.2),
           height: 20,
           decoration: BoxDecoration(
-            color: color,
+            color: _color,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
@@ -35,7 +38,7 @@ class FeedbackBar extends StatelessWidget {
                 // Adjust multiplier as needed
                 child: Center(
                   child: Text(
-                    "$percentage%",
+                    "$_percentage%",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

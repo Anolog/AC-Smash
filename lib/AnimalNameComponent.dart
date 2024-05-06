@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AnimalNameComponent extends StatefulWidget {
-  final String text;
-  final Color? nameColor;
-  final Color? nameContainerColor;
+  final String _text;
+  final Color? _nameColor;
+  final Color? _nameContainerColor;
 
   const AnimalNameComponent({
-    required this.text,
-    required this.nameColor,
-    required this.nameContainerColor,
-  });
+    required String pText,
+    required Color? pNameColor,
+    required Color? pNameContainerColor,
+  })  : _nameContainerColor = pNameContainerColor,
+        _nameColor = pNameColor,
+        _text = pText;
 
   @override
   _AnimalNameComponentState createState() => _AnimalNameComponentState();
@@ -58,7 +60,7 @@ class _AnimalNameComponentState extends State<AnimalNameComponent>
             margin: EdgeInsets.only(right: 16.0),
             padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
             decoration: BoxDecoration(
-              color: widget.nameContainerColor,
+              color: widget._nameContainerColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0),
@@ -67,11 +69,11 @@ class _AnimalNameComponentState extends State<AnimalNameComponent>
               ),
             ),
             child: Text(
-              widget.text,
+              widget._text,
               style: TextStyle(
                 fontFamily: 'Round',
                 fontSize: 20.0,
-                color: widget.nameColor,
+                color: widget._nameColor,
               ),
             ),
           ),

@@ -27,15 +27,15 @@ class SoundManager {
     _audioCache.loadAll(_soundUrls.values.toList());
   }
 
-  void playSoundOnce(String soundName) {
-    if (_soundUrls.containsKey(soundName)) {
-      _audioCache.play(_soundUrls[soundName]!, volume: 0.5);
+  void PlaySoundOnce(String pSoundName) {
+    if (_soundUrls.containsKey(pSoundName)) {
+      _audioCache.play(_soundUrls[pSoundName]!, volume: 0.5);
     }
   }
 
-  void playSoundOnceVolumeAdjust(String soundName, double volumeAmount) {
-    if (_soundUrls.containsKey(soundName)) {
-      _audioCache.play(_soundUrls[soundName]!, volume: volumeAmount);
+  void PlaySoundOnceVolumeAdjust(String pSoundName, double pVolumeAmount) {
+    if (_soundUrls.containsKey(pSoundName)) {
+      _audioCache.play(_soundUrls[pSoundName]!, volume: pVolumeAmount);
     }
   }
 }
